@@ -11,6 +11,10 @@ public class PipeSpawner : MonoBehaviour
 
     private void Update()
     {
+        // Chưa start game -> không spawn
+        if (Time.timeScale == 0f)
+            return;
+
         timer += Time.deltaTime;
 
         if (timer >= spawnInterval)
@@ -23,7 +27,12 @@ public class PipeSpawner : MonoBehaviour
     private void SpawnPipePair()
     {
         float randomY = Random.Range(minSpawnY, maxSpawnY);
-        Vector3 spawnPosition = new Vector3(transform.position.x, randomY, transform.position.z);
+
+        Vector3 spawnPosition = new Vector3(
+            transform.position.x,
+            randomY,
+            transform.position.z
+        );
 
         Instantiate(pipePairPrefab, spawnPosition, Quaternion.identity);
     }

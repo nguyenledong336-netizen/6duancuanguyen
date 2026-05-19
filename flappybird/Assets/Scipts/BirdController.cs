@@ -5,7 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class BirdController : MonoBehaviour
 {
+    [Header("Bird Settings")]
     [SerializeField] private float jumpForce = 6f;
+
+    [Header("Score UI")]
     [SerializeField] private TextMeshProUGUI scoreText;
 
     [Header("Game Over UI")]
@@ -13,6 +16,7 @@ public class BirdController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI finalScoreText;
 
     private Rigidbody2D rb;
+
     private bool isDead;
     private int score;
 
@@ -23,7 +27,6 @@ public class BirdController : MonoBehaviour
 
     private void Start()
     {
-        Time.timeScale = 1f;
         HideGameOverUI();
         UpdateScoreUI();
     }
@@ -33,7 +36,7 @@ public class BirdController : MonoBehaviour
         if (Keyboard.current == null)
             return;
 
-        // Nếu đã thua: bấm R hoặc Space để reset
+        // ===== GAME OVER =====
         if (isDead)
         {
             if (Keyboard.current.rKey.wasPressedThisFrame ||
@@ -45,7 +48,7 @@ public class BirdController : MonoBehaviour
             return;
         }
 
-        // Nếu chưa thua: bấm Space để bay
+        // ===== FLY =====
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             Fly();
@@ -75,6 +78,7 @@ public class BirdController : MonoBehaviour
         {
             score++;
             UpdateScoreUI();
+
             Debug.Log("Score: " + score);
         }
     }
@@ -82,9 +86,14 @@ public class BirdController : MonoBehaviour
     private void GameOver()
     {
         isDead = true;
+
         rb.linearVelocity = Vector2.zero;
+
         ShowGameOverUI();
+
+        // Dừng game
         Time.timeScale = 0f;
+
         Debug.Log("Game Over");
     }
 
@@ -120,6 +129,9 @@ public class BirdController : MonoBehaviour
     private void RestartGame()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+        SceneManager.LoadScene(
+            SceneManager.GetActiveScene().buildIndex
+        );
     }
 }

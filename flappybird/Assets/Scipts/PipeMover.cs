@@ -6,6 +6,11 @@ public class PipeMover : MonoBehaviour
 
     private void Update()
     {
-        transform.position += Vector3.left * moveSpeed * Time.deltaTime;
+        // Chưa start game -> không di chuyển
+        if (Time.timeScale == 0f)
+            return;
+
+        transform.position +=
+            Vector3.left * moveSpeed * Time.deltaTime;
     }
 }
